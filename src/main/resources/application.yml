@@ -2,5 +2,3 @@ spring:
   cloud:
     function:
       definition: batchCaller
-    main:
-      banner-mode: off
