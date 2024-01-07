@@ -9,17 +9,19 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-class FunctionApplication {
+class FunctionApplication(
+    private val objectMapper: ObjectMapper,
+) {
 
-    class Payload {
-        lateinit var url: String
-    }
+    data class Payload(
+        val url: String,
+    )
 
 
     @Bean
     fun batchCaller(): (String) -> (String) {
         return { payloadAsString ->
-            val payload = ObjectMapper().readValue(payloadAsString, Payload::class.java)
+            val payload = objectMapper.readValue(payloadAsString, Payload::class.java)
 
             runBlocking {
                 val response = Fuel.get(payload.url)
